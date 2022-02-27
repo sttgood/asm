@@ -9,7 +9,7 @@ b segment
 b ends
 
 code segment
-
+start:
 ;设置数据寄存器
 		mov ax,a
 		mov ds,ax
@@ -35,4 +35,4 @@ code ends
 
 
 
-end
+end start
