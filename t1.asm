@@ -1,38 +1,27 @@
-assume cs:code
-;将a段中的数据逆序放到d段中
-a segment 
-		dw		1,2,3,4,5,6,7,8,0AH,0BH,0CH,0DH,0EH,0FH,0FFH
-a ends
+assume cs:code,ds:data,ss:stack
+data segment
 
-b segment 
-		dw		0,0,0,0,0,0,0,0
-b ends
+		db 128 dup (0)
+
+data ends
+
+stack segment
+		db 128 dup (0)
+stack ends
+
 
 code segment
-start:
-;设置数据寄存器
-		mov ax,a
-		mov ds,ax
-;设置栈寄存器
-		mov ax,b
-		mov ss,ax
-		mov sp,16
-;设置中间参数，数据偏移，循环次数
-		mov bx,0
-		mov cx,8
+start:			mov ax,data
+				mov ds ,ax
 
-pushData:push ds:[bx]
-		add bx,2
-		loop pushData
-		
+				mov ax,stack
+				mov ss,ax
+				mov sp,32
 
-		mov ax,4C00H
-		int 21H
-
-
-
+tests:			mov ax,offset start
+				mov ax,offset tests	
+				
+				mov ax,4C00H
+				int 21H
 code ends
-
-
-
 end start
